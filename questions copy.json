@@ -1,0 +1,110 @@
+{
+  "quiz": {
+    "title": "General Knowledge Quiz",
+    "description": "Test your knowledge with these interesting questions",
+    "timeLimit": 300,
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "type": "multiple-choice",
+        "question": "What is the capital of France?",
+        "options": [
+          "London",
+          "Berlin",
+          "Paris",
+          "Madrid"
+        ],
+        "correctAnswer": 2,
+        "points": 10,
+        "explanation": "Paris is the capital and largest city of France."
+      },
+      {
+        "id": 2,
+        "type": "multiple-choice",
+        "question": "Which planet is known as the Red Planet?",
+        "options": [
+          "Venus",
+          "Mars",
+          "Jupiter",
+          "Saturn"
+        ],
+        "correctAnswer": 1,
+        "points": 10,
+        "explanation": "Mars is called the Red Planet due to its reddish appearance caused by iron oxide on its surface."
+      },
+      {
+        "id": 3,
+        "type": "true-false",
+        "question": "The Great Wall of China is visible from space with the naked eye.",
+        "correctAnswer": false,
+        "points": 10,
+        "explanation": "This is a common myth. The Great Wall is not visible from space with the naked eye."
+      },
+      {
+        "id": 4,
+        "type": "multiple-choice",
+        "question": "Who painted the Mona Lisa?",
+        "options": [
+          "Vincent van Gogh",
+          "Pablo Picasso",
+          "Leonardo da Vinci",
+          "Michelangelo"
+        ],
+        "correctAnswer": 2,
+        "points": 10,
+        "explanation": "Leonardo da Vinci painted the Mona Lisa in the early 16th century."
+      },
+      {
+        "id": 5,
+        "type": "multiple-choice",
+        "question": "What is the largest ocean on Earth?",
+        "options": [
+          "Atlantic Ocean",
+          "Indian Ocean",
+          "Arctic Ocean",
+          "Pacific Ocean"
+        ],
+        "correctAnswer": 3,
+        "points": 10,
+        "explanation": "The Pacific Ocean is the largest ocean, covering about 63 million square miles."
+      },
+      {
+        "id": 6,
+        "type": "true-false",
+        "question": "Humans only use 10% of their brain.",
+        "correctAnswer": false,
+        "points": 10,
+        "explanation": "This is a myth. Humans use virtually every part of their brain, and most of the brain is active most of the time."
+      },
+      {
+        "id": 7,
+        "type": "multiple-choice",
+        "question": "In what year did World War II end?",
+        "options": [
+          "1943",
+          "1944",
+          "1945",
+          "1946"
+        ],
+        "correctAnswer": 2,
+        "points": 10,
+        "explanation": "World War II ended in 1945 with the surrender of Japan in September."
+      },
+      {
+        "id": 8,
+        "type": "multiple-choice",
+        "question": "What is the smallest country in the world?",
+        "options": [
+          "Monaco",
+          "Vatican City",
+          "San Marino",
+          "Liechtenstein"
+        ],
+        "correctAnswer": 1,
+        "points": 10,
+        "explanation": "Vatican City is the smallest country in the world with an area of about 0.17 square miles."
+      }
+    ]
+  }
+}

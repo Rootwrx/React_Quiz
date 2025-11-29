@@ -1,0 +1,75 @@
+{
+  "quiz": {
+    "title": "General Knowledge Quiz",
+    "description": "Test your knowledge with these interesting questions",
+    "timeLimit": 300,
+    "passingScore": 70,
+    "totalPoints": 64,
+    "questions": [
+      {
+        "id": 1,
+        "type": "multiple-choice",
+        "question": "What is the capital of France?",
+        "options": ["London", "Berlin", "Paris", "Madrid"],
+        "correctAnswer": "Paris",
+        "points": 10,
+        "explanation": "Paris is the capital and largest city of France."
+      },
+      {
+        "id": 2,
+        "type": "multiple-choice",
+        "question": "Which planet is known as the Red Planet?",
+        "options": ["Venus", "Mars", "Jupiter", "Saturn"],
+        "correctAnswer": "Mars",
+        "points": 10,
+        "explanation": "Mars is called the Red Planet due to its reddish appearance caused by iron oxide on its surface."
+      },
+      {
+        "id": 4,
+        "type": "multiple-choice",
+        "question": "Who painted the Mona Lisa?",
+        "options": [
+          "Vincent van Gogh",
+          "Pablo Picasso",
+          "Leonardo da Vinci",
+          "Michelangelo"
+        ],
+        "correctAnswer": "Leonardo da Vinci",
+        "points": 11,
+        "explanation": "Leonardo da Vinci painted the Mona Lisa in the early 16th century."
+      },
+      {
+        "id": 5,
+        "type": "multiple-choice",
+        "question": "What is the largest ocean on Earth?",
+        "options": [
+          "Atlantic Ocean",
+          "Indian Ocean",
+          "Arctic Ocean",
+          "Pacific Ocean"
+        ],
+        "correctAnswer": "Pacific Ocean",
+        "points": 7,
+        "explanation": "The Pacific Ocean is the largest ocean, covering about 63 million square miles."
+      },
+      {
+        "id": 7,
+        "type": "multiple-choice",
+        "question": "In what year did World War II end?",
+        "options": ["1943", "1944", "1945", "1946"],
+        "correctAnswer": "1945",
+        "points": 14,
+        "explanation": "World War II ended in 1945 with the surrender of Japan in September."
+      },
+      {
+        "id": 8,
+        "type": "multiple-choice",
+        "question": "What is the smallest country in the world?",
+        "options": ["Monaco", "Vatican City", "San Marino", "Liechtenstein"],
+        "correctAnswer": "Vatican City",
+        "points": 12,
+        "explanation": "Vatican City is the smallest country in the world with an area of about 0.17 square miles."
+      }
+    ]
+  }
+}
