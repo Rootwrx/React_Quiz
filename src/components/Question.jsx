@@ -1,6 +1,6 @@
-import { useQuiz } from "./contexts/QuizContext";
-import { ACTIONS } from "./config";
-import { cn, formatTime } from "./lib/utils";
+import { useQuiz } from "../contexts/QuizContext";
+import { ACTIONS } from "../lib/config";
+import { cn, formatTime } from "../lib/utils";
 import { Option } from "./Option";
 import { useEffect, useMemo, useState } from "react";
 

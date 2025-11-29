@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
-import { ACTIONS, STATUS } from "../config";
+import { ACTIONS, STATUS } from "../lib/config";
 
 const QuizContext = createContext();
 

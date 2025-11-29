@@ -1,8 +1,8 @@
-import { STATUS } from "./config";
+import FinishScreen from "./components/FinishPage/FinishScreen";
+import Question from "./components/Question";
+import StartPage from "./components/StartPage";
 import { useQuiz } from "./contexts/QuizContext";
-import Question from "./Question";
-import StartPage from "./StartPage";
-import FinishScreen from "./components/FinishScreen";
+import { STATUS } from "./lib/config";
 
 function App() {
   const { state } = useQuiz();

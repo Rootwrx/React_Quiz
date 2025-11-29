@@ -1,5 +1,5 @@
 // Score Display Component
-import CircularProgress from '../CircularProgress';
+import CircularProgress from "../CircularProgress";
 const ScoreDisplay = ({ scorePercentage, passed }) => (
   <div className="text-center mb-8">
     <div className="inline-block relative">

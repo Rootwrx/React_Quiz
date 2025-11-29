@@ -1,4 +1,4 @@
-import { ACTIONS } from "../config";
+import { ACTIONS } from "../../lib/config";
 import ActionButtons from "./ActionButtons";
 import PerformanceMessage from "./PerformanceMessage";
 import QuizHeader from "./QuizHeader";

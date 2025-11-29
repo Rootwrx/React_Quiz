@@ -1,6 +1,6 @@
-import { ACTIONS } from "./config";
-import { useQuiz } from "./contexts/QuizContext";
-import { formatTime } from "./lib/utils";
+import { ACTIONS } from "../lib/config";
+import { useQuiz } from "../contexts/QuizContext";
+import { formatTime } from "../lib/utils";
 
 const StartPage = () => {
   const { state, dispatch } = useQuiz();

@@ -1,5 +1,5 @@
-import { useQuiz } from "../contexts/QuizContext";
-import { formatTime } from "../lib/utils";
+import { useQuiz } from "../../contexts/QuizContext";
+import { formatTime } from "../../lib/utils";
 
 const useQuizResults = () => {
   const { state, totalQuestions, dispatch } = useQuiz();

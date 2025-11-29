@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { cn } from "./lib/utils";
-import { useQuiz } from "./contexts/QuizContext";
-import { ACTIONS } from "./config";
+import { cn } from "../lib/utils";
+import { useQuiz } from "../contexts/QuizContext";
+import { ACTIONS } from "../lib/config";
 
 export const Option = ({ option }) => {
   const [isAnswerOpen, setIsAnswerOpen] = useState(false);
