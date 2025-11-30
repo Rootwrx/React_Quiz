@@ -1,8 +1,9 @@
 import { useQuiz } from "../contexts/QuizContext";
-import { ACTIONS } from "../lib/config";
+import { ACTIONS, QUESTIONS_TYPE } from "../lib/config";
 import { cn, formatTime } from "../lib/utils";
 import { Option } from "./Option";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
+import Options from "./Options";
 
 const Question = () => {
   const { state, dispatch, totalQuestions } = useQuiz();
@@ -58,9 +59,14 @@ const Question = () => {
         {question?.question}
       </h2>
 
-      {/* Options */}
-      <Options />
-      {/* End Options  */}
+      {question.type == QUESTIONS_TYPE.MULTIPLE_CHOICE ? (
+        <Options />
+      ) : (
+        <div className="grid gap-4 mb-6">
+          <Option option={true} />
+          <Option option={false} />
+        </div>
+      )}
 
       <div className="flex items-center justify-between">
         <Timer />
@@ -76,27 +82,6 @@ const Question = () => {
   );
 };
 
-const Options = () => {
-  const { state } = useQuiz();
-  const { index, questions } = state;
-  const question = questions[index];
-
-  const shuffeledOptions = useMemo(
-    () => {
-      console.log("index changed");
-      return question?.options.sort(() => 0.5 - Math.random());
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [index]
-  );
-  return (
-    <div className="flex mb-6 flex-col items-start gap-3">
-      {shuffeledOptions?.map((option, i) => (
-        <Option key={option} option={option} optionIndex={i} />
-      ))}
-    </div>
-  );
-};
 const Timer = () => {
   const { state, dispatch } = useQuiz();
   const { timeLimit } = state.quiz;

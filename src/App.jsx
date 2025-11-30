@@ -4,7 +4,7 @@ import StartPage from "./components/StartPage";
 import { useQuiz } from "./contexts/QuizContext";
 import { STATUS } from "./lib/config";
 
-function App() {
+const App = () => {
   const { state } = useQuiz();
   const { status, error } = state;
 
@@ -23,6 +23,6 @@ function App() {
       </div>
     </>
   );
-}
+};
 
 export default App;

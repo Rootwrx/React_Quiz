@@ -44,7 +44,7 @@ export const Option = ({ option }) => {
           USER_ANSWER ? "cursor-not-allowed opacity-90" : "cursor-pointer"
         )}
       >
-        <span className="block flex-1">{option}</span>
+        <span className="block flex-1 capitalize">{option + ""}</span>
         {USER_ANSWER && USER_ANSWER.correctAnswer === option && (
           <button
             type="button"

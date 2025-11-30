@@ -18,3 +18,10 @@ export const ACTIONS = {
   TIMEOUT: "TIMEOUT",
   RETAKE_QUIZ: "RETAKE_QUIZ",
 };
+
+const QUESTIONS_TYPE = {
+  MULTIPLE_CHOICE: "multiple-choice",
+  TRUE_FALSE: "true-false",
+};
+
+export  { QUESTIONS_TYPE };

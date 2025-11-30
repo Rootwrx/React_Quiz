@@ -20,6 +20,11 @@ const reducer = (state, action) => {
       };
     }
 
+    case ACTIONS.DATA_FAILED: {
+      const errorMessage = action[1];
+      return { ...state, status: STATUS.ERROR, error: errorMessage };
+    }
+
     case ACTIONS.START_QUIZ: {
       return { ...state, status: STATUS.ACTIVE, startTime: Date.now() };
     }
@@ -36,11 +41,17 @@ const reducer = (state, action) => {
 
     case ACTIONS.SAVE_ANSWER: {
       const question = state.questions[state.index];
-      const isCorrect = question.correctAnswer == action[1];
+
+      let correctValue;
+      if (Array.isArray(question.options))
+        correctValue = question.options[question.correctAnswer];
+      else correctValue = question.correctAnswer;
+
+      const isCorrect = correctValue == action[1];
       const entry = {
         index: state.index,
-        isCorrect: isCorrect,
-        correctAnswer: question.correctAnswer,
+        isCorrect,
+        correctAnswer: correctValue,
         answer: action[1],
       };
       return {
@@ -94,7 +105,7 @@ const QuizProvider = ({ children }) => {
         const data = await res.json();
         dispatch([ACTIONS.DATA_RECEIVED, data]);
       } catch (err) {
-        dispatch([ACTIONS.DATA_FAILED], err.message);
+        dispatch([ACTIONS.DATA_FAILED, err.message]);
       }
     };
 
