@@ -2,7 +2,7 @@
   "quiz": {
     "title": "General Knowledge Quiz",
     "description": "Test your knowledge with these interesting questions",
-    "timeLimit": 5,
+    "timeLimit": 300,
     "passingScore": 70,
     "totalPoints": 64,
     "questions": [
