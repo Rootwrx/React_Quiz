@@ -1,241 +1,544 @@
 ```java
-package TPs;
 
-public class Date {
-    private final int month; // month (between 1 and 12)
-    private int day; // day (between 1 and 31
-    private int year; // year
-    public Date(int day, int month, int year) {
-        if (!isValid(day, month, year)) {
-            System.err.println("Invalid date");
-            System.exit(0);
+
+package TDs;
+
+public class Rationnel {
+    private int num, den;
+
+    // Constructors
+    public Rationnel(int num, int den) {
+        this.num = num;
+        this.den = den;
+        if (!estValide()) {
+            System.err.println("Denominateur invalide");
+            System.exit(1);
         }
-        this.month = month;
-        this.day = day;
-        this.year = year;
     }
-    public Date(int year) {
-        this(1,1,year);
-    }
-    public int month() {
-        return month;
-    }
-    public int day() {
-        return day;
-    }
-    public int year() {
-        return year;
-    }
-    private boolean isValid(int d, int m, int y) {
-        if (d < 1 || d > 31) return false;
-        if (m < 1 || m > 12) return false;
-        return y >= 0;
-    }
-    public boolean isAfter(Date that) {
-        return compareTo(that) > 0;
-    }
-    public boolean isBefore(Date that) {
-        return compareTo(that) < 0;
-    }
-    public int compareTo(Date that) {
-        if(year != that.year) return  year-that.year;
-        if(month!=that.month) return  month-that.month;
-        return  day-that.day;
 
+    public Rationnel(int num, int den, boolean norml) {
+        this(num, den);
+        if (norml)
+            normaliser();
     }
+
+    // Copy constructor
+    public Rationnel(Rationnel r) {
+        this(r.num, r.den);
+    }
+
+    public Rationnel(int num) {
+        this(num, 1);
+    }
+
+    public Rationnel() {
+        this(0, 1);
+    }
+
+    // Public methods
+
+    public boolean estNul() {
+        return num == 0;
+    }
+
+    public boolean estEntier() {
+        return num % den == 0;
+    }
+
+    public boolean estUnitaire() {
+        return num == den;
+    }
+
+    // getters
+    public int getNum() {
+        return num;
+    }
+
+    public int getDen() {
+        return den;
+    }
+    // Private methods
+
+    private boolean estValide() {
+        return den != 0;
+    }
+
+    private int pgcd(int a, int b) {
+        if (b == 0)
+            return a;
+
+        return pgcd(b, a % b);
+    }
+
+    private void normaliser() {
+        int gcd = pgcd(Math.abs(num), Math.abs(den));
+        num /= gcd;
+        den /= gcd;
+    }
+
+    public Rationnel additionner(Rationnel r) {
+        int newNum = this.num * r.den + r.num * this.den;
+        int newDen = this.den * r.den;
+        return new Rationnel(newNum, newDen);
+    }
+
+    public Rationnel muliplier(Rationnel r) {
+        int newNum = num * r.num;
+        int newDen = den * r.den;
+        return new Rationnel(newNum, newDen);
+    }
+
+    public Rationnel oppose() {
+        return new Rationnel(-num, den);
+    }
+
+    public Rationnel soustraire(Rationnel r) {
+        return this.additionner(r.oppose());
+    }
+
+    public Rationnel inverse() {
+        if (estNul())
+            throw new ArithmeticException("on peut pas diviser pas zero");
+
+        return new Rationnel(den, num);
+    }
+
+    public Rationnel diviser(Rationnel r) {
+
+        return this.muliplier(r.inverse());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        Rationnel r = (Rationnel) o;
+
+        return (num / den) == (r.num / r.den);
+    }
+
+    // override toString method
     @Override
     public String toString() {
-        return day + "/" + month + "/" + year;
-    }
-    public boolean aEquals(Date dt) {
-        if (dt==null) return false;
+        if (estUnitaire())
+            return "1";
 
-        return year == dt.year;
-    }
-}
-```
+        if (estNul())
+            return "0";
 
-```java
+        if (estEntier())
+            return num / den + "";
 
-package TPs;
+        normaliser();
 
-public class Personne {
-    private String nom;
-    private Date dt;
+        if (den < 0) {
+            num = -num;
+            den = -den;
+        }
 
-    public Personne(String nom, Date dt) {
-        this.nom = nom;
-        this.dt = dt;
+        return num + "/" + den;
+
     }
 
-    public Personne(String nom) {
-        this.nom = nom;
-    }
-
-    public Personne(String n, int j, int m, int a) {
-        this(n, new Date(j, m, a));
-    }
-
-    public String toString() {
-        return nom + " né le " + dt + "\n";
-    }
-
-    public boolean equals(Personne p) {
-        if (p == null) return false;
-        return nom.equalsIgnoreCase(p.nom);
-    }
-
-    public int compareTo(Personne p) {
-        if (dt == null) return Integer.MAX_VALUE;
-        if (p == null) return Integer.MAX_VALUE;
-        return dt.compareTo(p.dt);
-    }
-
-    public boolean aEquals(Personne p) {
-        if (dt == null) return false;
-        if (p == null) return false;
-        return dt.aEquals(p.dt);
-    }
 }
 
-```
-```java
 
-package TPs;
 
-import java.util.Objects;
-public class Produit    {
-    private String code;
-    private Date dt;
-    public Produit(String code, Date dt) {
-        this.code = code;
-        this.dt = dt;
+
+
+// class Monome 
+
+package TDs;
+
+public class Monome {
+
+    private Rationnel coeff;
+    private int deg;
+
+    // Constructors
+    public Monome(int deg, Rationnel coeff) {
+        this.coeff = coeff;
+        this.deg = deg;
     }
 
+    public Monome(Monome m) {
+        this(m.deg, new Rationnel(m.coeff));
+    }
 
+    public Monome() {
+    }
+
+    public Monome additionner(Monome m) {
+        // assert works only if java assertions is 'enabled
+        // si true : continue sinon arrete
+        assert equals(m);
+
+        coeff = coeff.additionner(m.coeff);
+        return this;
+    }
+
+    public Monome multiplier(Monome m) {
+        return new Monome(deg + m.deg, coeff.muliplier(m.coeff));
+    }
+
+    public boolean estNul() {
+        return coeff.estNul();
+    }
+
+    public int compareTo(Monome m) {
+        return deg - m.deg;
+    }
+    // Operations
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
+        if (this == obj)
             return true;
-        }
-        if (obj == null) {
+        if (obj == null || getClass() != obj.getClass())
             return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Produit other = (Produit) obj;
-        return Objects.equals(this.code, other.code);
+        Monome m = (Monome) obj;
+        return deg == m.deg;
     }
+
+    // toString : version de prof
+    // @Override
+    // public String toString() {
+    // return "(" +coeff+")" +"X^" + deg;
+    // }
+
+    // method pas demande mais util pour l'affichage
+    public Rationnel getCoeff() {
+        return coeff;
+    }
+
+    // toString : mon version pour une bonne affichage
     @Override
     public String toString() {
-        return "Produit[" + "code=" + code + ", Date=" + dt +"]";
-    }
-    public int compareTo(Produit o) {
-        return code.compareTo(o.code);
-    }
-    public boolean estAncien(Produit ref){
-        return dt.isBefore(ref.dt);
+        if (estNul())
+            return "0";
+
+        String sb = "";
+        // avoid printing 1X and X^0 for coefficient
+        if (!coeff.estUnitaire() || deg == 0) {
+            sb = coeff.toString(); // i.e :"3/10","5",...(deg!=0) , mais pas "1"
+        }
+
+        if (deg >= 1) {
+            sb = "(" + sb + ")X";
+            if (deg > 1)
+                sb += "^" + deg; // x^2 ,x^3...
+        }
+        return sb;
     }
 
+}
 
-    // pas demanded dans le TP!,
-    // c'est just pour le 'hard copy' dans le Stock qui est aussi pas demanded !!
+
+
+
+
+
+
+// class Polynome
+package TDs;
+
+import java.util.ArrayList;
+
+public class Polynome extends ArrayList<Monome> {
+
+    public Polynome() {
+    };
+
     @Override
-    public  Produit clone() throws CloneNotSupportedException {
-        return  (Produit) super.clone();
+    public int indexOf(Object o) {
+        Monome m = (Monome) o;
+        int i = 0;
+        for (i = 0; i < size(); i++) {
+            int c = get(i).compareTo(m);
+            if (c >= 0)
+                break;
+        }
+
+        return i;
     }
 
-    static void main() {
-        Produit p1 = new Produit("x3wwn3",new Date(2020));
+    @Override
+    public boolean add(Monome m) {
+        int index = indexOf(m);
+        if (index == size()) {
+            super.add(m);
+            return true;
+        }
+
+        if (get(index).equals(m)) {
+            Monome sum = get(index).additionner(m);
+            if (sum.estNul()) {
+                remove(index);
+                return false;
+            }
+            return true;
+        }
+
+        // si existe pas :l'ajouter a l'indice
+        add(index, m);
+        return true;
+    }
+
+    public Polynome additionner(Monome m) {
+        add(m);
+        return this;
+    }
+
+    public Polynome multiplier(Monome m) {
+        Polynome result = new Polynome();
+        for (Monome x : this)
+            result.add(m.multiplier(x));
+
+        return result;
+    }
+
+    // le prof pas fait 'toString' : cest just pour l'affichage
+    // prof jamais utilise StringBuilder
+    @Override
+    public String toString() {
+        if (isEmpty())
+            return "0";
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = size() - 1; i >= 0; i--) {
+            Monome m = get(i);
+            if (i != size() - 1 && m.getCoeff().getNum() > 0)
+                sb.append("+");
+            sb.append(m.toString());
+        }
+        return sb.toString();
+    }
+
+    // code testing
+    public static void main(String[] args) {
+
+        // Create an empty polynomial
+        Polynome p = new Polynome();
+        p.add(new Monome(2, new Rationnel(2, 3)));
+        p.add(new Monome(1, new Rationnel(2, 3)));
+        p.add(new Monome(3, new Rationnel(2, 3)));
+
+        System.out.println(p);
+
+        p.add(new Monome(2, new Rationnel(2, 3)));
+        p.add(new Monome(1, new Rationnel(5, 3)));
+
+        System.out.println(p);
+        p.multiplier(new Monome(2, new Rationnel(3, 4)));
+        System.out.println(p);
+        p.multiplier(new Monome(1, new Rationnel(3, 4)));
+        System.out.println("p(x) = " + p);
+
     }
 }
 
-```
-```java
 
-package TPs;
+
+
+
+
+
+
+
+// class  Compte
+
+
+package TDs;
+
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
-public class Stock extends LinkedList<Produit> {
+public class Compte implements Comparable<Compte>, Cloneable {
+    private String numero;
+    private double solde;
+    private List<Action> historique = new LinkedList<>();
+
+    class Action {
+        private double montant;
+
+        public Action(double montant) {
+            this.montant = montant;
+        }
+
+        class Depot extends Action {
+            public Depot() {
+                super(montant);
+                Compte.this.solde += montant;
+            }
+
+            @Override
+            public String toString() {
+                return "+" + montant;
+            }
+        }
+
+        class Retrait extends Action {
+            public Retrait() {
+                super(montant);
+                Compte.this.solde -= montant;
+            }
+
+            @Override
+            public String toString() {
+                return "+" + montant;
+            }
+        }
+
+    }
+
+    public double getSolde() {
+        return solde;
+    }
+
+    public void setSolde(double solde) {
+        this.solde = solde;
+    }
 
     @Override
-    public boolean add(Produit produit) {
-        return !contains(produit) ? super.add(produit) :false;
-
-        // ou bien;
-        //if(contains(produit)) return  false;
-        //return  super.add(produit);
+    public String toString() {
+        return numero + "\t" + solde + "\n" + historique + "\n";
     }
 
-
-
-    public  Produit plusEncien() {
-        int j=0;
-        for(int i=1 ; i<size(); i++)
-            if(get(i).estAncien(get(j)))  j=i;
-
-        return  get(j);
+    public void deposer(double m) {
+        historique.add(new Action(m).new Depot());
     }
 
-
-    public  Stock getPerimes(Date dt) {
-        Stock stock = new Stock();
-        Produit  other = new Produit("", dt);
-        for(Produit p:this)
-            if(p.estAncien(other)) stock.add(p);
-
-        return  stock;
+    public boolean retirer(double m) {
+        if (solde < m)
+            return false;
+        // upCasting i.e Action object <-- Depot or Retrait object
+        // because Action is supertype of both
+        historique.add(new Action(m).new Retrait());
+        return true;
     }
 
-    // supprimer les produits perimes du Stock;
-    public  void removePerimes(Date dt) {
-        for(Produit produitPerime : getPerimes(dt))
-            remove(produitPerime);
+    public double Depots() {
+        double total = 0;
+        for (Iterator<Action> it = historique.iterator(); it.hasNext();) {
+            Action action = it.next();
+            if (action instanceof Action.Depot)
+                total += action.montant;
+        }
+
+        return total;
     }
 
-    // pas demanded dans le TP;
     @Override
-    public Stock clone() {
-        // shallow copy
-        Stock cloned = (Stock) super.clone();
+    public int compareTo(Compte o) {
+        return numero.compareTo(o.numero);
+    }
 
+    @Override
+    public Compte clone() {
+        Compte cloned = null;
         try {
-            // deep copy of Produit;
-            for(int i= 0;i<size();i++)
-                    cloned.set(i, cloned.get(i).clone());
-        }catch (CloneNotSupportedException _)  {}
 
-        return  cloned;
+            cloned = (Compte) super.clone();
+            // list is an interface => has no clone method
+            // so we need to caste historique to a class implementing the interface List
+            // for exmaple LinkedLit
+            // then clone this linkedlist object => clone of type object
+            // then casting the linkedlist of Object to List<Action>
+            cloned.historique = (List<Action>) ((LinkedList<Action>) historique).clone();
+
+        } catch (CloneNotSupportedException ex) {
+        }
+        return cloned;
     }
 
-    // pas demande dans le TP;
-    @Override
-    public  String toString() {
-        StringBuilder s = new StringBuilder();
-        for(Produit produit : this)
-            s.append(produit.toString()).append("\n");
-        return s.toString();
-    }
+    public static void main(String[] args) {
+        Compte c1 = new Compte();
+        c1.setSolde(1000);
+        c1.deposer(100);
+        c1.deposer(200);
 
+        System.out.println(c1);
+        System.out.println(c1.Depots());
 
-    static void main() {
-        Stock stock = new Stock();
-        stock.add(new Produit("0002",new Date(2022)));
-        stock.add(new Produit("0003",new Date(2021)));
-        stock.add(new Produit("0004",new Date(5,1,2023)));
-        stock.add(new Produit("0005",new Date(7,1,2023)));
-        stock.add(new Produit("0006",new Date(6,1,2023)));
-        stock.add(new Produit("0007",new Date(2000)));
-        stock.add(new Produit("0008",new Date(2024)));
-
-
-        System.out.println(stock.plusEncien());
-        stock.removePerimes(new Date(6,1,2023));
-        System.out.println(stock);
     }
 }
+
+
+
+
+
+
+
+
+// class Agence
+
+
+package TDs;
+
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.function.Function;
+import java.util.function.Predicate;
+
+public class Agence extends LinkedList<Compte> {
+    // trier par solde
+    public Agence sTrier() {
+        sort(Comparator.comparing(Compte::getSolde));
+        return this;
+    }
+
+    // methode 'filtrer' qui retourne l'ensemble des comptes
+    // vérifiant p
+    public Agence filtrer(Predicate<Compte> p) {
+        Agence res = new Agence();
+
+        // en utilisant For
+        // for (Compte c : this)
+        // if (p.test(c))
+        // res.add(c);
+
+        // en utilisant Iterator
+        Iterator<Compte> it = iterator();
+        while (it.hasNext()) {
+            Compte c = it.next();
+            if (p.test(c))
+                res.add(c);
+        }
+        return res;
+    }
+
+    // method 'maper' qui retourne l'ensemble des
+    // comptes d'une agence à laquelle
+    // on a appliqué la fonction ‘f’
+    public Agence maper(Function<Compte, Compte> f) {
+        Agence res = new Agence();
+
+        for (Iterator<Compte> it = iterator(); it.hasNext();)
+            res.add(f.apply(it.next()));
+
+        return res;
+    }
+
+    // une méthode permettant de multiplier par 1.02 les soldes des comptes de
+    // soldes supérieurs à un certain montant donné.
+    public Agence misaj(double m) {
+        Predicate<Compte> p = (c) -> c.getSolde() > m;
+        Function<Compte, Compte> f = (c) -> {
+            c.setSolde(c.getSolde() * 1.02);
+            return c;
+        };
+
+        return filtrer(p).maper(f);
+    }
+}
+
+
+
 
 
 ```
