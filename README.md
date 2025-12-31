@@ -97,6 +97,7 @@ public class Rationnel {
     }
 
     public Rationnel inverse() {
+        // je pense que le prof pas fait ce ArithmeticException
         if (estNul())
             throw new ArithmeticException("on peut pas diviser pas zero");
 
