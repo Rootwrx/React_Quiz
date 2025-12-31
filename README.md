@@ -149,9 +149,9 @@ public class Rationnel {
 
 
 
-
+/////////////////////////////////////////////////////////////////
 // class Monome 
-
+/////////////////////////////////////////////////////////////////
 package TDs;
 
 public class Monome {
@@ -242,8 +242,11 @@ public class Monome {
 
 
 
+/////////////////////////////////////////////////////////////////
+// class Polynome 
+/////////////////////////////////////////////////////////////////
 
-// class Polynome
+
 package TDs;
 
 import java.util.ArrayList;
@@ -348,8 +351,9 @@ public class Polynome extends ArrayList<Monome> {
 
 
 
-
-// class  Compte
+/////////////////////////////////////////////////////////////////
+// class Compte 
+/////////////////////////////////////////////////////////////////
 
 
 package TDs;
@@ -474,8 +478,9 @@ public class Compte implements Comparable<Compte>, Cloneable {
 
 
 
-
-// class Agence
+/////////////////////////////////////////////////////////////////
+// class  Compte
+/////////////////////////////////////////////////////////////////
 
 
 package TDs;
@@ -541,5 +546,189 @@ public class Agence extends LinkedList<Compte> {
 
 
 
+
+
+
+/////////////////////////////////////////////////////////////////
+// class Element  
+/////////////////////////////////////////////////////////////////
+
+package TDs;
+
+public class Element implements Comparable<Element> {
+    private int ligne, colonne;
+    private double val;
+
+    public double getVal() {
+        return val;
+    }
+
+    public Element(int ligne, int colonne, double val) {
+        this.ligne = ligne;
+        this.colonne = colonne;
+        this.val = val;
+    }
+
+    public Element(int ligne, int colonne) {
+        this.ligne = ligne;
+        this.colonne = colonne;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+
+        if (this == obj) {
+            return true;
+        }
+
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Element other = (Element) obj;
+        if (this.ligne != other.ligne) {
+            return false;
+        }
+        if (this.colonne != other.colonne) {
+            return false;
+        }
+        return true;
+    }
+
+    public int compareTo(Element o) {
+        if (ligne > o.ligne)
+            return 1;
+        if (ligne < o.ligne)
+            return -1;
+        if (colonne > o.colonne)
+            return 1;
+        if (colonne < o.colonne)
+            return -1;
+        return 0;
+    }
+
+    public Element plus(Element e) {
+        assert equals(e);
+        val += e.val;
+        return this;
+    }
+
+    public String toString() {
+        return "(" + ligne + "," + colonne + "," + val + ")";
+    }
+
+    public boolean mval(Element e) {
+        return val == e.val;
+    }
+}
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////////
+// class OEns 
+/////////////////////////////////////////////////////////////////
+
+package TDs;
+
+import java.util.*;
+import java.util.function.Predicate;
+
+public class OEns<T extends Comparable<? super T>> extends LinkedList<T> {
+
+    public Paire<Integer, Boolean> localiser(T x) {
+        int i = 0;
+        for (; i < size(); i++) {
+            int c = x.compareTo(get(i));
+            if (c == 0)
+                return new Paire<>(i, true);
+            if (c < 0)
+                break;
+        }
+        return new Paire<>(i, false);
+    }
+
+    @Override
+    public boolean add(T e) {
+        Paire<Integer, Boolean> p = localiser(e);
+        if (p.getSecond())
+            return false;
+        add(p.getFirst(), e);
+        return true;
+    }
+
+    public OEns<T> pgp(Predicate<T> p) {
+        OEns<T> res = new OEns<>();
+        Iterator<T> it = this.iterator();
+        while (it.hasNext()) {
+            T x = it.next();
+            if (p.test(x))
+                res.add(x);
+            else
+                break;
+        }
+        return res;
+    }
+
+    public OEns<T> union(OEns<T> x) {
+        for (Iterator<T> it = x.iterator(); it.hasNext();) {
+            add(it.next());
+        }
+        return this;
+    }
+}
+
+
+
+
+
+/////////////////////////////////////////////////////////////////
+// class matrice
+/////////////////////////////////////////////////////////////////
+
+
+package TDs;
+
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+
+public class Matrice extends OEns<Element> {
+
+    public Matrice plus(Matrice m) {
+        for (Element x : m) {
+            Paire<Integer, Boolean> p = localiser(x);
+            if (p.getSecond()) {
+                get(p.getFirst()).plus(x);
+            } else {
+                add(p.getFirst(), x);
+            }
+        }
+        return this;
+    }
+
+    public Matrice ordval() {
+        sort(Comparator.comparing(Element::getVal));
+        return this;
+    }
+
+    public List<Paire<Double, Integer>> occ() {
+        List<Paire<Double, Integer>> res = new LinkedList<>();
+
+        ordval();
+        while (!this.isEmpty()) {
+            Element c = get(0);
+            // OEns x = pgp(e -> e.mval(c));
+            OEns<Element> x = pgp(e -> e.mval(c));
+            res.add(new Paire<>(c.getVal(), x.size()));
+            this.removeAll(x);
+        }
+        return res;
+    }
+}
 
 ```
