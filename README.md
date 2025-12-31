@@ -628,6 +628,52 @@ public class Element implements Comparable<Element> {
 
 
 
+/////////////////////////////////////////////////////////////////
+// class Paire 
+/////////////////////////////////////////////////////////////////
+
+
+
+
+
+package TDs;
+
+public class Paire<U, V> {
+    private U first;
+    private V second;
+
+    public V getSecond() {
+        return second;
+    }
+
+    public void setSecond(V second) {
+        this.second = second;
+    }
+
+    public U getFirst() {
+        return first;
+    }
+
+    public void setFirst(U first) {
+        this.first = first;
+    }
+
+    public Paire(U first, V second) {
+        this.first = first;
+        this.second = second;
+    }
+
+    public Paire() {
+    }
+
+    public String toString() {
+        return "<" + first + "," + second + ">";
+    }
+}
+
+
+
+
 
 /////////////////////////////////////////////////////////////////
 // class OEns 
