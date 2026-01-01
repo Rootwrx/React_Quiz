@@ -13,19 +13,15 @@ public class Paire<U, V> {
         this.first = first;
         this.second = second;
     }
-
     public Paire(U first) {
         this.first = first;
     }
-
     public V getSecond() {
         return second;
     }
-
     public U getFirst() {
         return first;
     }
-
     public String toString() {
         return "(" + first + ", " + second + ")";
     }
@@ -34,10 +30,6 @@ public class Paire<U, V> {
 // classe: implementant des ensembles ordonnes d'elements,sans repetitions
 
 public class OEns<T extends Comparable<? super T>> extends LinkedList<T> implements Comparable<OEns<T>> {
-
-    
-    
-    
     
     Paire<Integer, Boolean> localiser(T x) {
         // 1-  un type de retour de cette methode sous la forme 
@@ -47,6 +39,7 @@ public class OEns<T extends Comparable<? super T>> extends LinkedList<T> impleme
 
         // 2- donner le corps de la methode
 
+        .............................
         .............................
         .............................
     }
@@ -59,8 +52,7 @@ public class OEns<T extends Comparable<? super T>> extends LinkedList<T> impleme
         .............................
 
 
-
-        // retourne l'element maximal 
+     // retourne l'element maximal
         public T max() {
         // 4- definir en traitant le cas vide;
         .............................
@@ -105,15 +97,15 @@ public class OEns<T extends Comparable<? super T>> extends LinkedList<T> impleme
     // 8- completer la definiton de la classe;
     // la comparison se fait suivant le premier element non-common
     // utiliser la methode "restes" et traiter les cas particuliers
-    @Override
-    public int compareTo(OEns<T> e) {
         .............................
         .............................
         .............................
-    }
+        .............................
+
+
+
 
     // Transformer une liste en OEns
-
     public OEns<T> cons(List<T> l) {
         // 9- donner le coprs de la methode en utilisant un iterateur ;
         .............................
@@ -128,7 +120,8 @@ public class Test {
     public static void main(String[] args) {
         OEns<OEns<String>> ls = new OEns<>();
         // 10- Justifier la validité de cette instruction.
-        
+        .............................
+        .............................        
 
         OEns<String> s = new OEns<>();
         s.add("aba");
@@ -143,7 +136,8 @@ public class Test {
 
         System.out.println(ls);
         // 11 Donner le résultat de l'affichage
-        
+        .............................
+        .............................
     }
 }
 
