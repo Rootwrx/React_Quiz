@@ -141,7 +141,7 @@ public class OEns<T extends Comparable<? super T>> extends LinkedList<T> impleme
         a2.add(2);
         a2.add(3);
 
-        System.out.println(" Restes de a1 et a1 " + a1.restes(a2)); // ([], [])
+        System.out.println(" Restes de a1 et a2 " + a1.restes(a2)); // ([], [])
 
         System.out.println("a1 vs a2 (expect 0): " + a1.compareTo(a2));
 
