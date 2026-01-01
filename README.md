@@ -1,692 +1,52 @@
 ```java
 
-
-package TDs;
-
-public class Rationnel {
-    private int num, den;
-
-    // Constructors
-    public Rationnel(int num, int den) {
-        this.num = num;
-        this.den = den;
-        if (!estValide()) {
-            System.err.println("Denominateur invalide");
-            System.exit(1);
-        }
-    }
-
-    public Rationnel(int num, int den, boolean norml) {
-        this(num, den);
-        if (norml)
-            normaliser();
-    }
-
-    // Copy constructor
-    public Rationnel(Rationnel r) {
-        this(r.num, r.den);
-    }
-
-    public Rationnel(int num) {
-        this(num, 1);
-    }
-
-    public Rationnel() {
-        this(0, 1);
-    }
-
-    // Public methods
-
-    public boolean estNul() {
-        return num == 0;
-    }
-
-    public boolean estEntier() {
-        return num % den == 0;
-    }
-
-    public boolean estUnitaire() {
-        return num == den;
-    }
-
-    // getters
-    public int getNum() {
-        return num;
-    }
-
-    public int getDen() {
-        return den;
-    }
-    // Private methods
-
-    private boolean estValide() {
-        return den != 0;
-    }
-
-    private int pgcd(int a, int b) {
-        if (b == 0)
-            return a;
-
-        return pgcd(b, a % b);
-    }
-
-    private void normaliser() {
-        int gcd = pgcd(Math.abs(num), Math.abs(den));
-        num /= gcd;
-        den /= gcd;
-    }
-
-    public Rationnel additionner(Rationnel r) {
-        int newNum = this.num * r.den + r.num * this.den;
-        int newDen = this.den * r.den;
-        return new Rationnel(newNum, newDen);
-    }
-
-    public Rationnel muliplier(Rationnel r) {
-        int newNum = num * r.num;
-        int newDen = den * r.den;
-        return new Rationnel(newNum, newDen);
-    }
-
-    public Rationnel oppose() {
-        return new Rationnel(-num, den);
-    }
-
-    public Rationnel soustraire(Rationnel r) {
-        return this.additionner(r.oppose());
-    }
-
-    public Rationnel inverse() {
-        // je pense que le prof pas fait ce ArithmeticException
-        if (estNul())
-            throw new ArithmeticException("on peut pas diviser pas zero");
-
-        return new Rationnel(den, num);
-    }
-
-    public Rationnel diviser(Rationnel r) {
-
-        return this.muliplier(r.inverse());
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-
-        Rationnel r = (Rationnel) o;
-
-        return (num / den) == (r.num / r.den);
-    }
-
-    // override toString method
-    @Override
-    public String toString() {
-        if (estUnitaire())
-            return "1";
-
-        if (estNul())
-            return "0";
-
-        if (estEntier())
-            return num / den + "";
-
-        normaliser();
-
-        if (den < 0) {
-            num = -num;
-            den = -den;
-        }
-
-        return num + "/" + den;
-
-    }
-
-}
-
-
-
-
-/////////////////////////////////////////////////////////////////
-// class Monome 
-/////////////////////////////////////////////////////////////////
-package TDs;
-
-public class Monome {
-
-    private Rationnel coeff;
-    private int deg;
-
-    // Constructors
-    public Monome(int deg, Rationnel coeff) {
-        this.coeff = coeff;
-        this.deg = deg;
-    }
-
-    public Monome(Monome m) {
-        this(m.deg, new Rationnel(m.coeff));
-    }
-
-    public Monome() {
-    }
-
-    public Monome additionner(Monome m) {
-        // assert works only if java assertions is 'enabled
-        // si true : continue sinon arrete
-        assert equals(m);
-
-        coeff = coeff.additionner(m.coeff);
-        return this;
-    }
-
-    public Monome multiplier(Monome m) {
-        return new Monome(deg + m.deg, coeff.muliplier(m.coeff));
-    }
-
-    public boolean estNul() {
-        return coeff.estNul();
-    }
-
-    public int compareTo(Monome m) {
-        return deg - m.deg;
-    }
-    // Operations
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null || getClass() != obj.getClass())
-            return false;
-        Monome m = (Monome) obj;
-        return deg == m.deg;
-    }
-
-    // toString : version de prof
-    // @Override
-    // public String toString() {
-    // return "(" +coeff+")" +"X^" + deg;
-    // }
-
-    // method pas demande mais util pour l'affichage
-    public Rationnel getCoeff() {
-        return coeff;
-    }
-
-    // toString : mon version pour une bonne affichage
-    @Override
-    public String toString() {
-        if (estNul())
-            return "0";
-
-        String sb = "";
-        // avoid printing 1X and X^0 for coefficient
-        if (!coeff.estUnitaire() || deg == 0) {
-            sb = coeff.toString(); // i.e :"3/10","5",...(deg!=0) , mais pas "1"
-        }
-
-        if (deg >= 1) {
-            sb = "(" + sb + ")X";
-            if (deg > 1)
-                sb += "^" + deg; // x^2 ,x^3...
-        }
-        return sb;
-    }
-
-}
-
-
-
-
-
-
-/////////////////////////////////////////////////////////////////
-// class Polynome 
-/////////////////////////////////////////////////////////////////
-
-
-package TDs;
-
-import java.util.ArrayList;
-
-public class Polynome extends ArrayList<Monome> {
-
-    public Polynome() {
-    };
-
-    @Override
-    public int indexOf(Object o) {
-        Monome m = (Monome) o;
-        int i = 0;
-        for (i = 0; i < size(); i++) {
-            int c = get(i).compareTo(m);
-            if (c >= 0)
-                break;
-        }
-
-        return i;
-    }
-
-    @Override
-    public boolean add(Monome m) {
-        int index = indexOf(m);
-        if (index == size()) {
-            super.add(m);
-            return true;
-        }
-
-        if (get(index).equals(m)) {
-            Monome sum = get(index).additionner(m);
-            if (sum.estNul()) {
-                remove(index);
-                return false;
-            }
-            return true;
-        }
-
-        // si existe pas :l'ajouter a l'indice
-        add(index, m);
-        return true;
-    }
-
-    public Polynome additionner(Monome m) {
-        add(m);
-        return this;
-    }
-
-    public Polynome multiplier(Monome m) {
-        Polynome result = new Polynome();
-        for (Monome x : this)
-            result.add(m.multiplier(x));
-
-        return result;
-    }
-
-    // le prof pas fait 'toString' : cest just pour l'affichage
-    // prof jamais utilise StringBuilder
-    @Override
-    public String toString() {
-        if (isEmpty())
-            return "0";
-
-        StringBuilder sb = new StringBuilder();
-        for (int i = size() - 1; i >= 0; i--) {
-            Monome m = get(i);
-            if (i != size() - 1 && m.getCoeff().getNum() > 0)
-                sb.append("+");
-            sb.append(m.toString());
-        }
-        return sb.toString();
-    }
-
-    // code testing
-    public static void main(String[] args) {
-
-        // Create an empty polynomial
-        Polynome p = new Polynome();
-        p.add(new Monome(2, new Rationnel(2, 3)));
-        p.add(new Monome(1, new Rationnel(2, 3)));
-        p.add(new Monome(3, new Rationnel(2, 3)));
-
-        System.out.println(p);
-
-        p.add(new Monome(2, new Rationnel(2, 3)));
-        p.add(new Monome(1, new Rationnel(5, 3)));
-
-        System.out.println(p);
-        p.multiplier(new Monome(2, new Rationnel(3, 4)));
-        System.out.println(p);
-        p.multiplier(new Monome(1, new Rationnel(3, 4)));
-        System.out.println("p(x) = " + p);
-
-    }
-}
-
-
-
-
-
-
-
-
-/////////////////////////////////////////////////////////////////
-// class Compte 
-/////////////////////////////////////////////////////////////////
-
-
-package TDs;
-
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-
-public class Compte implements Comparable<Compte>, Cloneable {
-    private String numero;
-    private double solde;
-    private List<Action> historique = new LinkedList<>();
-
-    class Action {
-        private double montant;
-
-        public Action(double montant) {
-            this.montant = montant;
-        }
-
-        class Depot extends Action {
-            public Depot() {
-                super(montant);
-                Compte.this.solde += montant;
-            }
-
-            @Override
-            public String toString() {
-                return "+" + montant;
-            }
-        }
-
-        class Retrait extends Action {
-            public Retrait() {
-                super(montant);
-                Compte.this.solde -= montant;
-            }
-
-            @Override
-            public String toString() {
-                return "+" + montant;
-            }
-        }
-
-    }
-
-    public double getSolde() {
-        return solde;
-    }
-
-    public void setSolde(double solde) {
-        this.solde = solde;
-    }
-
-    @Override
-    public String toString() {
-        return numero + "\t" + solde + "\n" + historique + "\n";
-    }
-
-    public void deposer(double m) {
-        historique.add(new Action(m).new Depot());
-    }
-
-    public boolean retirer(double m) {
-        if (solde < m)
-            return false;
-        // upCasting i.e Action object <-- Depot or Retrait object
-        // because Action is supertype of both
-        historique.add(new Action(m).new Retrait());
-        return true;
-    }
-
-    public double Depots() {
-        double total = 0;
-        for (Iterator<Action> it = historique.iterator(); it.hasNext();) {
-            Action action = it.next();
-            if (action instanceof Action.Depot)
-                total += action.montant;
-        }
-
-        return total;
-    }
-
-    @Override
-    public int compareTo(Compte o) {
-        return numero.compareTo(o.numero);
-    }
-
-    @Override
-    public Compte clone() {
-        Compte cloned = null;
-        try {
-
-            cloned = (Compte) super.clone();
-            // list is an interface => has no clone method
-            // so we need to caste historique to a class implementing the interface List
-            // for exmaple LinkedLit
-            // then clone this linkedlist object => clone of type object
-            // then casting the linkedlist of Object to List<Action>
-            cloned.historique = (List<Action>) ((LinkedList<Action>) historique).clone();
-
-        } catch (CloneNotSupportedException ex) {
-        }
-        return cloned;
-    }
-
-    public static void main(String[] args) {
-        Compte c1 = new Compte();
-        c1.setSolde(1000);
-        c1.deposer(100);
-        c1.deposer(200);
-
-        System.out.println(c1);
-        System.out.println(c1.Depots());
-
-    }
-}
-
-
-
-
-
-
-
-/////////////////////////////////////////////////////////////////
-// class  Agence
-/////////////////////////////////////////////////////////////////
-
-
-package TDs;
-
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.function.Function;
-import java.util.function.Predicate;
-
-public class Agence extends LinkedList<Compte> {
-    // trier par solde
-    public Agence sTrier() {
-        sort(Comparator.comparing(Compte::getSolde));
-        return this;
-    }
-
-    // methode 'filtrer' qui retourne l'ensemble des comptes
-    // vérifiant p
-    public Agence filtrer(Predicate<Compte> p) {
-        Agence res = new Agence();
-
-        // en utilisant For
-        // for (Compte c : this)
-        // if (p.test(c))
-        // res.add(c);
-
-        // en utilisant Iterator
-        Iterator<Compte> it = iterator();
-        while (it.hasNext()) {
-            Compte c = it.next();
-            if (p.test(c))
-                res.add(c);
-        }
-        return res;
-    }
-
-    // method 'maper' qui retourne l'ensemble des
-    // comptes d'une agence à laquelle
-    // on a appliqué la fonction ‘f’
-    public Agence maper(Function<Compte, Compte> f) {
-        Agence res = new Agence();
-
-        for (Iterator<Compte> it = iterator(); it.hasNext();)
-            res.add(f.apply(it.next()));
-
-        return res;
-    }
-
-    // une méthode permettant de multiplier par 1.02 les soldes des comptes de
-    // soldes supérieurs à un certain montant donné.
-    public Agence misaj(double m) {
-        Predicate<Compte> p = (c) -> c.getSolde() > m;
-        Function<Compte, Compte> f = (c) -> {
-            c.setSolde(c.getSolde() * 1.02);
-            return c;
-        };
-
-        return filtrer(p).maper(f);
-    }
-}
-
-
-
-
-
-
-
-/////////////////////////////////////////////////////////////////
-// class Element  
-/////////////////////////////////////////////////////////////////
-
-package TDs;
-
-public class Element implements Comparable<Element> {
-    private int ligne, colonne;
-    private double val;
-
-    public double getVal() {
-        return val;
-    }
-
-    public Element(int ligne, int colonne, double val) {
-        this.ligne = ligne;
-        this.colonne = colonne;
-        this.val = val;
-    }
-
-    public Element(int ligne, int colonne) {
-        this.ligne = ligne;
-        this.colonne = colonne;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-
-        if (this == obj) {
-            return true;
-        }
-
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Element other = (Element) obj;
-        if (this.ligne != other.ligne) {
-            return false;
-        }
-        if (this.colonne != other.colonne) {
-            return false;
-        }
-        return true;
-    }
-
-    public int compareTo(Element o) {
-        if (ligne > o.ligne)
-            return 1;
-        if (ligne < o.ligne)
-            return -1;
-        if (colonne > o.colonne)
-            return 1;
-        if (colonne < o.colonne)
-            return -1;
-        return 0;
-    }
-
-    public Element plus(Element e) {
-        assert equals(e);
-        val += e.val;
-        return this;
-    }
-
-    public String toString() {
-        return "(" + ligne + "," + colonne + "," + val + ")";
-    }
-
-    public boolean mval(Element e) {
-        return val == e.val;
-    }
-}
-
-
-
-
-
-/////////////////////////////////////////////////////////////////
-// class Paire 
-/////////////////////////////////////////////////////////////////
-
-
-
-
-
-package TDs;
-
+/**
+ * Classe modélisant des couples d'éléments quelconques
+ */
 public class Paire<U, V> {
     private U first;
     private V second;
-
-    public V getSecond() {
-        return second;
-    }
-
-    public void setSecond(V second) {
-        this.second = second;
-    }
-
-    public U getFirst() {
-        return first;
-    }
-
-    public void setFirst(U first) {
-        this.first = first;
-    }
 
     public Paire(U first, V second) {
         this.first = first;
         this.second = second;
     }
 
-    public Paire() {
+    public Paire(U first) {
+        this.first = first;
+    }
+
+    public V getSecond() {
+        return second;
+    }
+
+    public U getFirst() {
+        return first;
     }
 
     public String toString() {
-        return "<" + first + "," + second + ">";
+        return "(" + first + ", " + second + ")";
     }
-}
+} // Fin classe Paire
 
 
 
 
 
-/////////////////////////////////////////////////////////////////
-// class OEns 
-/////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////
+class OEns
+///////////////////////////////////////////////
 
-package TDs;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.function.Predicate;
 
-public class OEns<T extends Comparable<? super T>> extends LinkedList<T> {
+public class OEns<T extends Comparable<? super T>> extends LinkedList<T> implements Comparable<OEns<T>> {
 
-    public Paire<Integer, Boolean> localiser(T x) {
+    Paire<Integer, Boolean> localiser(T x) {
+
         int i = 0;
         for (; i < size(); i++) {
             int c = x.compareTo(get(i));
@@ -695,86 +55,254 @@ public class OEns<T extends Comparable<? super T>> extends LinkedList<T> {
             if (c < 0)
                 break;
         }
+
         return new Paire<>(i, false);
     }
 
+    // redefinir la methode 'add' pour tenir compte des proprietes de la structure
+    // ordonnees et sans repetition
+
     @Override
-    public boolean add(T e) {
-        Paire<Integer, Boolean> p = localiser(e);
+    public boolean add(T x) {
+
+        Paire<Integer, Boolean> p = localiser(x);
         if (p.getSecond())
             return false;
-        add(p.getFirst(), e);
+
+        add(p.getFirst(), x);
         return true;
+
     }
 
-    public OEns<T> pgp(Predicate<T> p) {
+    // definir en traitant le cas vide;
+    public T max() {
+        if (isEmpty())
+            return null;
+
+        return get(size() - 1); // liste ordonne => max = dernier element !
+    }
+
+    // retourne l'ensemble des elements verifiant le predicat
+    public OEns<T> filtrer(Predicate<T> p) {
         OEns<T> res = new OEns<>();
-        Iterator<T> it = this.iterator();
+        Iterator<T> it = iterator();
         while (it.hasNext()) {
             T x = it.next();
             if (p.test(x))
                 res.add(x);
-            else
+        }
+        return res;
+
+    }
+
+    // retourne la plus grand prefixe commun aux deux ensembles
+    // example: le pgpc aux deux ensembles d'entier [1,2,3,4] et [1,2,7] est [1,2]
+
+    public OEns<T> pgcp(OEns<T> e) {
+
+        if (e.size() == 0 || size() == 0)
+            return null;
+
+        OEns<T> res = new OEns<>();
+
+        for (int i = 0; i < size() && i < e.size(); i++) {
+            if (get(i).compareTo(e.get(i)) != 0)
                 break;
+
+            res.add(get(i));
         }
+
         return res;
     }
 
-    public OEns<T> union(OEns<T> x) {
-        for (Iterator<T> it = x.iterator(); it.hasNext();) {
-            add(it.next());
-        }
-        return this;
+    // retourne la paire des deux ensembles des quels on a eliminer la plus grand
+    // prefix commun
+    // en utilisant les methodes 'max' et 'filtrer'
+
+    Paire<OEns<T>, OEns<T>> restes(OEns<T> other) {
+        OEns<T> p = this.pgcp(other);
+
+        if (p == null || p.isEmpty())
+            return new Paire<>(this, other);
+
+        T max = p.max();
+
+        OEns<T> r1 = filtrer((t) -> t.compareTo(max) > 0);
+        OEns<T> r2 = other.filtrer((t) -> t.compareTo(max) > 0);
+
+        return new Paire<>(r1, r2);
     }
+
+    // la comparison se fait suivant le premier element non-common
+    // utiliser la methode "restes" et traiter les cas particuliers
+    @Override
+    public int compareTo(OEns<T> e) {
+        Paire<OEns<T>, OEns<T>> restes = restes(e);
+        OEns<T> f = restes.getFirst();
+        OEns<T> s = restes.getSecond();
+
+        if (f.isEmpty() && s.isEmpty())
+            return 0;
+
+        if (f.isEmpty())
+            return -1;
+        if (s.isEmpty())
+            return 1;
+
+        return f.get(0).compareTo(s.get(0));
+    }
+
+    // Transformer une liste en OEns en utilisant un iterateur ;
+
+    public OEns<T> cons(List<T> l) {
+        if (l.isEmpty())
+            return new OEns<>();
+
+        OEns<T> res = new OEns<>();
+
+        for (Iterator<T> it = l.iterator(); it.hasNext();)
+            res.add(it.next());
+
+        return res;
+    }
+
+    public static void main(String[] args) {
+
+        // Case 1: deux listes qui sont egaux
+        OEns<Integer> a1 = new OEns<>();
+        a1.add(1);
+        a1.add(2);
+        a1.add(3);
+
+        OEns<Integer> a2 = new OEns<>();
+        a2.add(1);
+        a2.add(2);
+        a2.add(3);
+
+        System.out.println("a1 vs a2 (expect 0): " + a1.compareTo(a2));
+
+        // Case 2: difference apres le plus grand prefixe
+        OEns<Integer> b1 = new OEns<>();
+        b1.add(1);
+        b1.add(2);
+        b1.add(3);
+
+        OEns<Integer> b2 = new OEns<>();
+        b2.add(1);
+        b2.add(2);
+        b2.add(4);
+
+        System.out.println("b1 vs b2 (expect <0): " + b1.compareTo(b2));
+        System.out.println("b2 vs b1 (expect >0): " + b2.compareTo(b1));
+
+        // Case 3: c1 est lui-meme le plus grand prefixe;
+        OEns<Integer> c1 = new OEns<>();
+        c1.add(1);
+        c1.add(2);
+
+        OEns<Integer> c2 = new OEns<>();
+        c2.add(1);
+        c2.add(2);
+        c2.add(5);
+
+        System.out.println("c1 vs c2 (expect <0): " + c1.compareTo(c2));
+        System.out.println("c2 vs c1 (expect >0): " + c2.compareTo(c1));
+
+        // Case 4: difference apres le plus grand prefixe
+        OEns<Integer> d1 = new OEns<>();
+        d1.add(1);
+        d1.add(3);
+        d1.add(7);
+
+        OEns<Integer> d2 = new OEns<>();
+        d2.add(1);
+        d2.add(4);
+        d2.add(6);
+
+        System.out.println("d1 vs d2 (expect <0): " + d1.compareTo(d2));
+        System.out.println("d2 vs d1 (expect >0): " + d2.compareTo(d1));
+
+        // Case 5: comparison de listes vides
+        OEns<Integer> e1 = new OEns<>();
+        OEns<Integer> e2 = new OEns<>();
+
+        System.out.println("e1 vs e2 (expect 0): " + e1.compareTo(e2));
+
+        // ajoutant un element dans e2 , e1 et encore vide
+        e2.add(1);
+        System.out.println("e1 vs e2 (expect <0): " + e1.compareTo(e2));
+        System.out.println("e2 vs e1 (expect >0): " + e2.compareTo(e1));
+    }
+
 }
 
 
 
 
+////////////////////////////////////////////////
+class Test
+///////////////////////////////////////////////
 
-/////////////////////////////////////////////////////////////////
-// class matrice
-/////////////////////////////////////////////////////////////////
 
+public class Test {
+    public static void main(String[] args) {
+        OEns<OEns<String>> ls = new OEns<>();
+        // 10) Justifier la validité de cette instruction.
+        /*
+         * La classe OEns<T> est définie avec la contrainte :
+         * T extends Comparable<? super T>
+         *
+         * Or, la classe OEns<String> implémente l’interface
+         * Comparable<OEns<String>>
+         *
+         * Donc OEns<String> est comparable à des objets de son propre type,
+         * ce qui satisfait la contrainte générique imposée sur T.
+         *
+         * Par conséquent, l’instanciation OEns<OEns<String>> est valide.
+         */
 
-package TDs;
+        OEns<String> s = new OEns<>();
+        s.add("aba");
+        s.add("aba"); // rejeté : OEns ne permet pas les doublons
 
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
+        OEns<String> ss = new OEns<>();
+        ss.add("ax");
+        ss.add("abb"); // insertion ordonnée : "abb" < "ax"
 
-public class Matrice extends OEns<Element> {
+        ls.add(s);
+        ls.add(ss);
 
-    public Matrice plus(Matrice m) {
-        for (Element x : m) {
-            Paire<Integer, Boolean> p = localiser(x);
-            if (p.getSecond()) {
-                get(p.getFirst()).plus(x);
-            } else {
-                add(p.getFirst(), x);
-            }
-        }
-        return this;
-    }
+        System.out.println(ls);
+        // 11) Donner le résultat de l'affichage
+        // reponse : [["aba"], ["abb","ax"]]
 
-    public Matrice ordval() {
-        sort(Comparator.comparing(Element::getVal));
-        return this;
-    }
-
-    public List<Paire<Double, Integer>> occ() {
-        List<Paire<Double, Integer>> res = new LinkedList<>();
-
-        ordval();
-        while (!this.isEmpty()) {
-            Element c = get(0);
-            // OEns x = pgp(e -> e.mval(c));
-            OEns<Element> x = pgp(e -> e.mval(c));
-            res.add(new Paire<>(c.getVal(), x.size()));
-            this.removeAll(x);
-        }
-        return res;
+        // just explication ce qui se passe : pas reponse pour le question !
+        /*
+         * ls est un ensemble ordonné dont les éléments sont des OEns<String>.
+         *
+         * Chaque élément de 'ls' est donc comparé à l’aide de la méthode
+         * compareTo définie dans OEns<String>, c’est-à-dire par comparaison
+         * lexicographique (premier élément non commun) !.
+         *
+         * Après les insertions :
+         * s = ["aba"]
+         * ss = ["abb", "ax"]
+         *
+         * Lors de ls.add(ss), la comparaison effectuée est :
+         * ["aba"].compareTo(["abb","ax"])
+         *
+         * Le plus grand préfixe commun est vide, on compare donc les premiers
+         * éléments :
+         * "aba".compareTo("abb") < 0
+         *
+         * Ainsi ["aba"] est placé avant ["abb","ax"].
+         *
+         * Le contenu final de ls est donc :
+         * [["aba"], ["abb","ax"]]
+         */
     }
 }
+
+
 
 ```
