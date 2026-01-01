@@ -206,4 +206,68 @@ public class OEns<T extends Comparable<? super T>> extends LinkedList<T> impleme
 }
 
 
+////////////////////////////////////
+class Test
+///////////////////////////////////
+
+public class Test {
+    public static void main(String[] args) {
+        OEns<OEns<String>> ls = new OEns<>();
+        // 10) Justifier la validité de cette instruction.
+        /*
+         * La classe OEns<T> est définie avec la contrainte :
+         * T extends Comparable<? super T>
+         *
+         * Or, la classe OEns<String> implémente l’interface
+         * Comparable<OEns<String>>
+         *
+         * Donc OEns<String> est comparable à des objets de son propre type,
+         * ce qui satisfait la contrainte générique imposée sur T.
+         *
+         * Par conséquent, l’instanciation OEns<OEns<String>> est valide.
+         */
+
+        OEns<String> s = new OEns<>();
+        s.add("aba");
+        s.add("aba"); // rejeté : OEns ne permet pas les doublons
+
+        OEns<String> ss = new OEns<>();
+        ss.add("ax");
+        ss.add("abb"); // insertion ordonnée : "abb" < "ax"
+
+        ls.add(s);
+        ls.add(ss);
+
+        System.out.println(ls);
+        // 11) Donner le résultat de l'affichage
+        // reponse : [["aba"], ["abb","ax"]]
+
+        // just explication ce qui se passe : pas reponse pour le question !
+        /*
+         * ls est un ensemble ordonné dont les éléments sont des OEns<String>.
+         *
+         * Chaque élément de 'ls' est donc comparé à l’aide de la méthode
+         * compareTo définie dans OEns<String>, c’est-à-dire par comparaison
+         * lexicographique (premier élément non commun) !.
+         *
+         * Après les insertions :
+         * s = ["aba"]
+         * ss = ["abb", "ax"]
+         *
+         * Lors de ls.add(ss), la comparaison effectuée est :
+         * ["aba"].compareTo(["abb","ax"])
+         *
+         * Le plus grand préfixe commun est vide, on compare donc les premiers
+         * éléments :
+         * "aba".compareTo("abb") < 0
+         *
+         * Ainsi ["aba"] est placé avant ["abb","ax"].
+         *
+         * Le contenu final de ls est donc :
+         * [["aba"], ["abb","ax"]]
+         */
+    }
+}
+
+
 ```
