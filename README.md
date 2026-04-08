@@ -404,7 +404,7 @@ Les **3 wireframes** ci-dessous représentent les écrans correspondant aux fonc
 ### Écran 1 — Inscription / Connexion
 
 <img src="login.png" alt="My Screenshot" width="400"/>
-
+![Alt Text](path/to/admin.png)
 **Annotations :** Champ email avec validation format. Champ mot de passe masqué. Bouton CTA centré. Lien vers inscription. Message d'erreur sous le formulaire si identifiants invalides.
 
 ---
@@ -412,6 +412,7 @@ Les **3 wireframes** ci-dessous représentent les écrans correspondant aux fonc
 ### Écran 2 — Liste des Cours
 
 <img src="cours.png" alt="My Screenshot" width="400"/>
+![Alt Text](path/to/cours.png)
 
 **Annotations :** NavBar persistante. Barre de recherche avec filtre par module. Cartes de cours avec icône type (PDF/vidéo), titre, bouton d'accès. Grille responsive 3 colonnes.
 
@@ -420,7 +421,7 @@ Les **3 wireframes** ci-dessous représentent les écrans correspondant aux fonc
 ### Écran 3 — Quiz
 
 <img src="quiz.png" alt="My Screenshot" width="400"/>
-
+![Alt Text](path/to/quiz.png)
 **Annotations :** Barre de progression (questions répondues/total). Question numérotée en texte clair. 4 options à choix unique (radio buttons). Navigation précédent/suivant. Bouton « Soumettre » à la dernière question. Score affiché sur écran de résultat post-soumission.
 
 ---
