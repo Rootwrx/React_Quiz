@@ -404,6 +404,7 @@ Les **3 wireframes** ci-dessous représentent les écrans correspondant aux fonc
 ### Écran 1 — Inscription / Connexion
 
 <img src="login.png" alt="My Screenshot" width="400"/>
+https://github.com/Rootwrx/React_Quiz/raw/main/art/admin.png
 ![Alt Text](admin.png)
 **Annotations :** Champ email avec validation format. Champ mot de passe masqué. Bouton CTA centré. Lien vers inscription. Message d'erreur sous le formulaire si identifiants invalides.
 
