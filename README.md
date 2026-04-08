@@ -4,14 +4,7 @@
 
 ## Plateforme E-Learning Simplifiée
 
-**Mini-Cahier des Charges · Livrable 1**
-
-<br>
-
-<img src="https://img.shields.io/badge/Domaine-Education_/_Formation_en_ligne-blue" />
-<img src="https://img.shields.io/badge/Type-Application_Web-green" />
-<img src="https://img.shields.io/badge/Année-2025_·_2026-orange" />
-<img src="https://img.shields.io/badge/Séance-02_(26_Mars_2026)-red" />
+**Livrable 1 : Mini-Cahier des Charges ·**
 
 <br><br>
 
@@ -22,7 +15,6 @@
 | Chef de Projet | **Haitam** |
 | Product Owner | **Soufian** |
 | Développeurs / Testeurs | **Smail & Younes** |
-| Référent | **Pr. Sanae EL MIMOUNI** |
 
 </div>
 
@@ -380,13 +372,6 @@ Les **5 KPIs** suivants seront mesurables et vérifiables lors de la soutenance 
 
 Le projet s'étend sur **12 séances**, organisées en **5 grandes phases** :
 
-```
-S1  S2  S3  S4  S5  S6  S7  S8  S9  S10 S11 S12
-+---++---++---++---++---++---++---++---++----++----++---+
-| Ph.1    || Ph.2            || Ph.3                    || Ph.4      ||Ph.5|
-| Cadrage || Conception       || Développement           || Tests     ||Liv.|
-+---------++------------------++-------------------------++-----------++----+
-```
 
 | Phase | Séances | Activités Principales | Livrables | Responsable |
 |:---:|:---:|:---|:---|:---:|
@@ -419,17 +404,7 @@ Les **3 wireframes** ci-dessous représentent les écrans correspondant aux fonc
 ### Écran 1 — Inscription / Connexion
 
 ```
-+===========================================+
-|           · EduLearn ·                     |
-|                                           |
-|   [ Se connecter | S'inscrire ]           |
-|                                           |
-|   Email : [___________________________]   |
-|   Mot de passe : [_____________________]  |
-|                                           |
-|   [ Se connecter ]                        |
-|   Pas encore de compte ? S'inscrire       |
-+===========================================+
+<img src="login.png" alt="My Screenshot" width="400"/>
 ```
 
 **Annotations :** Champ email avec validation format. Champ mot de passe masqué. Bouton CTA centré. Lien vers inscription. Message d'erreur sous le formulaire si identifiants invalides.
@@ -439,18 +414,7 @@ Les **3 wireframes** ci-dessous représentent les écrans correspondant aux fonc
 ### Écran 2 — Liste des Cours
 
 ```
-+===============================================================+
-|  NavBar : EduLearn | [Cours] [Profil] [Deconnexion]           |
-+===============================================================+
-|                                                               |
-|   Rechercher un cours...  [Filtrer par module v]              |
-|                                                               |
-|   +--------------+ +--------------+ +--------------+          |
-|   |   Cours 1     | |   Cours 2     | |   Cours 3     |       |
-|   | Algorithmique | |  BDD & SQL    | |   Reseaux     |       |
-|   | [Voir cours]  | | [Voir cours]  | | [Voir cours]  |       |
-|   +--------------+ +--------------+ +--------------+          |
-+===============================================================+
+<img src="cours.png" alt="My Screenshot" width="400"/>
 ```
 
 **Annotations :** NavBar persistante. Barre de recherche avec filtre par module. Cartes de cours avec icône type (PDF/vidéo), titre, bouton d'accès. Grille responsive 3 colonnes.
@@ -460,30 +424,9 @@ Les **3 wireframes** ci-dessous représentent les écrans correspondant aux fonc
 ### Écran 3 — Quiz
 
 ```
-+===============================================================+
-|  Quiz : Algorithmique  ·  Question 2/5                        |
-|  Progression : [########............] 40%                      |
-+===============================================================+
-|                                                               |
-|   Q2. Quelle est la complexite du tri rapide ?                |
-|                                                               |
-|     ( ) A. O(n)                                               |
-|     ( ) B. O(n²)                                              |
-|     ( ) C. O(n log n)                                         |
-|     ( ) D. O(log n)                                           |
-|                                                               |
-|   [ < Precedent ]              [ Question suivante > ]        |
-+===============================================================+
+<img src="quiz.png" alt="My Screenshot" width="400"/>
 ```
 
 **Annotations :** Barre de progression (questions répondues/total). Question numérotée en texte clair. 4 options à choix unique (radio buttons). Navigation précédent/suivant. Bouton « Soumettre » à la dernière question. Score affiché sur écran de résultat post-soumission.
 
 ---
-
-<div align="center">
-
-**EduLearn · Mini-Cahier des Charges**
-
-*Faculté des Sciences · Université Mohammed V de Rabat · 2025-2026*
-
-</div>
