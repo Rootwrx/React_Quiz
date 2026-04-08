@@ -247,24 +247,6 @@ Les fonctionnalités sont classées selon la méthode **MoSCoW**. Le périmètre
 
 EduLearn repose sur une architecture **3 couches (N-Tier)** classique, adaptée à un déploiement cloud moderne :
 
-```
-+-----------------------------------------------------------+
-|              COUCHE PRESENTATION · Front-end               |
-|                    React.js (SPA)                         |
-|   React Hooks · React Router v6 · Axios                   |
-|   Hebergement : Vercel (CDN global)                       |
-+----------------------+------------------------------------+
-|              COUCHE METIER · Back-end                     |
-|               Node.js + Express.js                        |
-|   API RESTful · JWT + bcrypt · Middleware securite         |
-+----------------------+------------------------------------+
-|              COUCHE DONNEES · Base de donnees             |
-|                    MongoDB Atlas                          |
-|   Mongoose (ODM) · Collections : Users, Courses,         |
-|   Quizzes, Results · Cloudinary (fichiers)               |
-+-----------------------------------------------------------+
-```
-
 ### 7.1 Couche Présentation · Front-end (React.js)
 
 | Élément | Technologie |
