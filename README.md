@@ -1,7 +1,8 @@
+```py
 # employe(id, nom, prenom, poste, dep→departement, sup→employe, salaire)
 # departement(id, nom, ville)
 # direction(id_emp→employe, id_dep→departement)
-
+```
 ## Q1 — Employés avec salaire entre 10 000 et 20 000, avec nom du département
 ### avec jointure
 ```sql
