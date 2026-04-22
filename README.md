@@ -6,7 +6,6 @@ FROM employe e
 JOIN departement d ON e.dep = d.id
 WHERE e.salaire BETWEEN 10000 AND 20000;
 ```
-
 ### avec sous-requets
 ```sql
 SELECT e.id, e.nom, e.prenom,
@@ -16,9 +15,7 @@ SELECT e.id, e.nom, e.prenom,
 FROM employe e
 WHERE e.salaire BETWEEN 10000 AND 20000;
 ```
-
 ## Q2 — Pour chaque département : id, nom, et nom du directeur
-
 ### avec jointure
 ```sql
 SELECT d.id, d.nom AS departement, e.nom AS directeur
@@ -73,9 +70,7 @@ select dep,
     avg(salaire) salaire_moyenne
 from employe 
 group by dep;
-
 ```
-
 ## Q4-bis — Nom des départements identifiés par Q4
 ```sql
 --  affichage de la ville ou se trouve le departement
@@ -87,6 +82,22 @@ JOIN departement d ON e.dep = d.id
 GROUP BY d.id, d.nom, d.ville;
 ```
 ## Q5 — Employés qui sont supérieurs mais PAS directeurs (sans EXCEPT/MINUS)
+### avec jointure
+```sql
+select distinct e.sup  
+from employe e 
+left join direction d on d.id_emp = e.sup  
+where d.id_emp is null 
+    and e.sup is not null;
+```
+### avec sous-requets
+```sql
+SELECT DISTINCT sup AS id_employe
+FROM employe
+WHERE sup IS NOT NULL
+  AND sup NOT IN (SELECT id_emp FROM direction);
+```
+## Q5-bis — Nom des employés identifiés par Q5
 ### avec jointure 
 ```sql
 SELECT DISTINCT e.id, e.nom, e.prenom
@@ -95,12 +106,10 @@ JOIN employe emp ON emp.sup = e.id
 LEFT JOIN direction di ON di.id_emp = e.id
 WHERE di.id_emp IS NULL;-- id_emp = null c-a-d  pas directeur
 ```
-
 ### avec sous-requets
 ```sql
 SELECT e.id, e.nom, e.prenom
 FROM employe e
-
 WHERE e.id IN (
     SELECT emp.sup
     FROM employe emp
